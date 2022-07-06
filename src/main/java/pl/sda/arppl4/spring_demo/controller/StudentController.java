@@ -1,5 +1,9 @@
 package pl.sda.arppl4.spring_demo.controller;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,8 +49,17 @@ public class StudentController {
 
     // PathVariable - zmienna podana w ścieżce
     // http://localhost:8080/api/student/5
+
+    @ApiOperation(value = "znajdzStudenta", notes = "Ten endpoint pozwala na znajdowanie studentow po ich identyfikatorach w bazie danych")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ten kod oznacza sukces operacji i poprawne załadowanie obiektów z tabeliu 'students"),
+            @ApiResponse(code = 400, message = "Ten kod oznacza źle wpisaną wartość lub typ parametru"),
+            @ApiResponse(code = 401, message = "Ten kod oznacza brak uprawnień do wykonywania tej operacji"),
+            @ApiResponse(code = 403, message = "Ten kod oznacza dostęp zabroniony"),
+            @ApiResponse(code = 500, message = "Ten kod oznacza błąd serwera")
+    })
     @GetMapping("/{identifier}")
-    public Student findStudent(@PathVariable(name = "identifier") Long studentId) {
+    public Student findStudent(@ApiParam(name = "identyfikator studenta", example = "1", type = "long", required = true) @PathVariable(name = "identifier") Long studentId) {
         log.info("Wywołano metodę findStudent: " + studentId);
 
         return studentService.findById(studentId);

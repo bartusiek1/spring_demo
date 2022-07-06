@@ -1,5 +1,7 @@
 package pl.sda.arppl4.spring_demo.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
+@ApiModel(value = "Student", description = "Encja reprezentująca instancję studenta w bazie danych.")
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,10 +21,18 @@ import javax.persistence.Id;
 public class Student {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
+@ApiModelProperty(example = "1", value = "Identyfikator student w bazie danych.")
+private Long id;
 
-    private Long id;
-    private String name;
-    private String surname;
-    private String indexNumber;
-    private String birthDate;
+@ApiModelProperty(example = "Jan", value = "Imie studenta")
+private String name;
+
+@ApiModelProperty(example = "Kowalski", value = "Nazwisko studenta")
+private String surname;
+
+@ApiModelProperty(example = "030405", value = "Numer indeksu studenta. Uwaga! nie mylić z identyfikatorem!")
+private String indexNumber;
+
+@ApiModelProperty(example = "2002-03-04", value = "Data urodzenia studenta w formacie yyyy-MM-dd.")
+private LocalDate birthDate;
 }
